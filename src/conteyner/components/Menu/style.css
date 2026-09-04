@@ -1,0 +1,472 @@
+.menu {
+    padding: 20px 0px;
+    max-width: 1240px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.menu h1 {
+    font-size: 26px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Сетка для компьютеров (по умолчанию): карточки фиксированной аккуратной ширины */
+.products-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+    margin-top: 20px;
+}
+
+.product-card {
+    width: 230px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+
+    /* Анимация появления при загрузке страницы */
+    animation: fadeInUp 0.4s ease forwards;
+
+    /* Плавный переход для наведения и убирания курсора */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-3px);
+    /* Красивая двойная свечение-тень без миганий */
+    box-shadow: -4px 4px 15px rgba(38, 0, 255, 0.692),
+        4px -4px 15px rgba(255, 136, 0, 0.829);
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.product-card h3 {
+    font-size: 15px;
+    margin: 8px 0 4px 0;
+    color: #222;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.karzinu {
+    width: 100%;
+    padding: 8px;
+    color: white;
+    background: linear-gradient(120deg, rgb(17, 0, 255) 0%, rgba(255, 157, 0, 1) 100%);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 13px;
+    margin-top: 8px;
+    transition: opacity 0.2s;
+}
+
+.karzinu:hover {
+    opacity: 0.9;
+}
+
+.back-button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================
+   АДАПТИВНОСТЬ ДЛЯ ТЕЛЕФОНОВ (экраны до 768px)
+   Строго по 2 товара в ряд, компактные карточки
+   ========================================== */
+@media (max-width: 768px) {
+    .menu {
+        padding: 15px 10px;
+    }
+
+    .menu h1 {
+        font-size: 20px;
+        text-align: center;
+        margin-bottom: 12px;
+    }
+
+    .products-list {
+        gap: 10px;
+        justify-content: flex-start;
+        margin-top: 10px;
+    }
+
+    /* На телефоне карточка занимает ровно половину экрана минус отступ */
+    .product-card {
+        width: calc(50% - 5px);
+        padding: 8px;
+    }
+
+    .product-card img {
+        height: 170px;
+    }
+
+    .product-card h3 {
+        font-size: 13px;
+        margin: 6px 0 2px 0;
+    }
+
+    .karzinu {
+        padding: 8px;
+        font-size: 11px;
+        margin-top: 7px;
+    }
+}
+
+
+/* Контейнер: гарантирует идеальный центр экрана и на ПК, и на телефонах */
+.voxel-loader-wrapper {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    /* Занимает высоту видимой части экрана */
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.voxel-empty-text {
+    color: #666;
+    font-size: 16px;
+    text-align: center;
+    margin: 0;
+}
+
+.voxel-loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+}
+
+/* Спиннер с вашим точным градиентом */
+.voxel-spinner {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    /* Ваш градиент */
+    background: linear-gradient(120deg, rgb(17, 0, 255) 0%, rgba(255, 157, 0, 1) 100%);
+
+    /* Вырезаем середину, чтобы получилось стильное кольцо */
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 0);
+    mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 0);
+
+    /* Анимация непрерывного вращения */
+    animation: voxel-spin 0.9s linear infinite;
+
+    /* Легкая неоновая подсветка в тон градиента */
+    filter: drop-shadow(0 0 12px rgba(17, 0, 255, 0.4));
+}
+
+/* Текст под спиннером */
+.voxel-loading-text {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: rgb(17, 0, 255);
+    letter-spacing: 0.5px;
+    animation: voxel-pulse 1.4s ease-in-out infinite;
+}
+
+/* Анимация вращения */
+@keyframes voxel-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Анимация плавного мерцания текста */
+@keyframes voxel-pulse {
+
+    0%,
+    100% {
+        opacity: 0.4;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+.order-button {
+    /* Сохраняем вашу цветовую гамму и угол 120deg.
+       Создаем 'бесконечную ленту' градиента для плавного перелива. */
+    background: linear-gradient(120deg,
+            rgb(17, 0, 255) 0%,
+            rgba(255, 157, 0, 1) 50%,
+            rgb(17, 0, 255) 100%);
+
+    /* Делаем фон в 2 раза шире самой кнопки, чтобы было что смещать */
+    background-size: 200% auto;
+
+    /* Стартовое состояние фона: левая часть градиента */
+    background-position: 0% 0%;
+
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+
+    /* Сохраняем ваш переход прозрачности и добавляем плавность для позиции фона */
+    transition: opacity 0.2s ease-in-out, background-position 0.2s;
+}
+
+.order-button:hover {
+    opacity: 0.95;
+    /* Запускаем анимацию перелива по диагонали.
+       0.7s - скорость одной волны, 1 - количество повторов. */
+    animation: gradient-diagonal 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1 forwards;
+}
+
+/* Эффект при нажатии: чуть-чуть затемняем */
+.order-button:active {
+    opacity: 1;
+}
+
+/* Анимация движения градиента: от 0% до 100% по оси X */
+@keyframes gradient-diagonal {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    100% {
+        /* Смещаем фон полностью вправо. Из-за угла 120deg
+           это выглядит как перелив по диагонали. */
+        background-position: 100% 0%;
+    }
+}
+
+.karzinu1 {
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 13px;
+    margin-top: 8px;
+    width: 100%;
+    padding: 8px;
+    color: white;
+    background-color: rgb(17, 0, 255 );
+}
+
+/* =========================================
+   СТИЛИ ДЛЯ АДАПТИВНОЙ КАРУСЕЛИ (СЛАЙДЕРА)
+========================================= */
+.carousel-container {
+    width: 100%;
+    max-width: 1200px; /* Ограничитель для огромных мониторов и ТВ */
+    margin: 0 auto 30px auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); /* Очень плавная анимация перелистывания */
+    width: 100%;
+    /* height: 400px; */
+}
+
+.carousel-slide {
+    min-width: 100%;
+    box-sizing: border-box;
+    /* УДАЛИЛИ height: 400px; отсюда, чтобы блок не зависал пустым на телефоне */
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 400px; /* ПЕРЕНЕСЛИ 400px прямо на картинку для ПК */
+    object-fit: cover; /* Картинка идеально заполнит 400px в высоту, обрезав лишнее по краям */
+    display: block;
+    /* Убрали aspect-ratio: 21 / 9; так как на ПК мы теперь используем точные 400px */
+}
+
+/* Кнопки влево/вправо */
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.3s ease, transform 0.2s ease;
+    z-index: 2;
+    backdrop-filter: blur(4px); /* Модный эффект размытия позади кнопки */
+}
+
+.carousel-button:hover {
+    background: rgb(17, 0, 255); /* Фирменный синий при наведении */
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-button.prev { left: 15px; }
+.carousel-button.next { right: 15px; }
+
+/* Точки внизу */
+.carousel-dots {
+    position: absolute;
+    bottom: 15px;
+    width: 100%;
+    text-align: center;
+    z-index: 2;
+}
+
+.carousel-dots .dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 6px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.carousel-dots .dot:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.carousel-dots .dot.active {
+    background-color: rgba(255, 157, 0, 1); /* Фирменный оранжевый для активного слайда */
+    transform: scale(1.4);
+    box-shadow: 0 0 8px rgba(255, 157, 0, 0.6);
+}
+
+
+
+
+
+/* ... Кнопки и точки остаются без изменений ... */
+
+/* АДАПТИВНОСТЬ ДЛЯ ТЕЛЕФОНОВ И ПЛАНШЕТОВ */
+
+
+.ai-button{
+    position: fixed;
+    bottom: 30px;
+    right: 20px;
+    background: linear-gradient(120deg, rgb(17, 0, 255) 0%, rgba(255, 157, 0, 1) 100%);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+    /* font-weight: bold; */
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    /* position: relative; */
+}
+
+.ai-button:hover {
+    transform: scale(1.1);
+    box-shadow: -4px 4px 15px rgba(38, 0, 255, 0.692),
+        4px -4px 15px rgba(255, 136, 0, 0.829);
+    }
+
+
+
+.imgzaxar{
+    width: 100px;
+    position: absolute;
+    left: -25px;
+    top: -2px;
+}
+
+
+@media (max-width: 768px) {
+    .carousel-container {
+        border-radius: 8px; /* На телефонах углы чуть меньше */
+    }
+    
+    .carousel-slide img {
+        height: auto; /* ВАЖНО: на телефоне отменяем жесткие 400px */
+        aspect-ratio: 16 / 9; /* Задаем пропорции, блок сам сожмется и обнимет картинку без пустот */
+    }
+    
+    .carousel-button {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+    
+    .carousel-dots {
+        bottom: 10px;
+    }
+    .ai-button{
+        bottom: 80px;
+        width: 60px;
+        height: 60px;
+    }
+    .imgzaxar{
+        width: 120px;
+        left: -30px;
+        top: -5px;
+    }
+}
+
+
+button:active, .interactive-card:active {
+    transform: scale(0.97);
+    opacity: 0.9;
+  }

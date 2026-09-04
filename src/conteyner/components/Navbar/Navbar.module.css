@@ -1,0 +1,433 @@
+/* --- Главный контейнер навигации --- */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+
+.navbar {
+    display: flex;
+    /* align-items: center; */
+    justify-content: space-between;
+    padding: 0 4%;
+    height: 80px;
+    background: linear-gradient(120deg, rgb(17, 0, 255) 0%,  rgba(255, 157, 0, 1) 100%);
+    animation: navbarEntrance 1s 1;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 1px;
+    cursor: pointer;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    text-decoration: none;
+    white-space: nowrap; /* Запрещаем перенос слов вообще */
+    transition: transform 0.3s ease, text-shadow 0.3s ease;
+}
+
+.logo:hover {
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    transform: scale(1.05);
+    transition: transform 0.3s ease, text-shadow 0.3s ease;
+}
+
+@keyframes navbarEntrance {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Структурные блоки --- */
+.logoArea,
+.linksArea {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.logoArea {
+    justify-content: flex-start;
+}
+
+.searchArea {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.linksArea {
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+/* --- Логотип --- */
+.logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 1px;
+    cursor: pointer;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    text-decoration: none;
+}
+
+/* --- Строка поиска (Десктоп) --- */
+.searchForm {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    padding: 0.4rem;
+    width: 100%;
+    max-width: 480px;
+    transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.searchForm:focus-within {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #ffffff;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+
+
+.searchInput {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 1rem;
+    padding: 0 1rem;
+    outline: none;
+}
+
+
+
+
+
+.searchInput::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.searchButton {
+    background: transparent;
+    border: none;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+}
+
+.searchButton:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* --- Ссылки навигации (Десктоп) --- */
+.navLinks {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    align-items: center;
+}
+
+.link {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 1rem;
+    opacity: 0.9;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.link:hover {
+    opacity: 1;
+    transform: translateY(-1px);
+}
+
+.adminLink {
+    text-decoration: none;
+    color: #ffffff;
+
+}
+
+/* .adminLink:hover {
+    background: #1e293b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+} */
+
+/* Мобильные кнопки скрыты на десктопе */
+.mobileIconButton,
+.backButton {
+    display: none;
+}
+
+
+/* =========================================
+   МОБИЛЬНАЯ АДАПТАЦИЯ (ТЕЛЕФОНЫ)
+   ========================================= */
+/* =========================================
+   МОБИЛЬНАЯ АДАПТАЦИЯ (ТЕЛЕФОНЫ)
+   ========================================= */
+@media (max-width: 768px) {
+
+    /* Показываем кнопки управления (лупа и гамбургер) */
+    .mobileIconButton {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: transparent;
+        border: none;
+        color: #ffffff;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 8px;
+        transition: background 0.2s ease;
+    }
+
+    .mobileIconButton:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Скрываем элементы при активном поиске */
+    .hiddenOnMobile {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+    }
+    
+
+    /* --- Магия выезжающего мобильного поиска --- */
+    .searchArea {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 0 4%;
+        background: linear-gradient(120deg, rgb(17, 0, 255) 0%,  rgba(255, 157, 0, 1) 100%);
+        z-index: 10;
+
+        /* Скрыт по умолчанию */
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    /* Активное состояние поиска */
+    .searchArea.searchAreaActive {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .backButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        color: white;
+        margin-right: 10px;
+        cursor: pointer;
+        padding: 0.5rem;
+    }
+
+
+
+    .searchForm {
+        max-width: 100%;
+    }
+
+    /* --- Выезжающее сбоку Гамбургер-Меню (НОВОЕ) --- */
+    .navLinks {
+        position: fixed;
+        /* Фиксируем относительно окна браузера */
+        top: 80px;
+        /* Начинаем ровно под навбаром */
+        right: 0;
+        /* Прижимаем к правому краю */
+        width: 70%;
+        /* Ширина меню 70% от экрана */
+        max-width: 320px;
+        height: calc(100vh - 80px);
+        /* Высота до самого низа экрана */
+        background: #ffffff;
+        /* Идеальный белый фон */
+        flex-direction: column;
+        padding: 3rem 0;
+        gap: 2.5rem;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
+        /* Красивая тень слева от меню */
+
+        /* Скрыто по умолчанию (уведено вправо за пределы экрана) */
+        opacity: 0;
+        visibility: hidden;
+        transform: translateX(100%);
+        transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        z-index: 999;
+    }
+
+    /* Открытое состояние меню (выезжает справа налево) */
+    .navLinks.navLinksOpen {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0);
+    }
+
+    /* --- Градиентный текст для мобильного меню (НОВОЕ) --- */
+    .link,
+    .adminLink {
+        font-size: 1.4rem;
+        /* Делаем текст покрупнее для мобилок */
+        font-weight: 800;
+        /* Делаем текст жирным, чтобы градиент читался */
+
+        /* Создаем градиент из ваших фирменных цветов */
+        background: linear-gradient(120deg, rgb(17, 0, 255) 0%, rgba(255, 157, 0, 1) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+
+        /* Сбрасываем лишние стили у админ-кнопки для мобилок */
+        padding: 0;
+        box-shadow: none;
+    }
+
+    /* Отключаем hover эффекты смещения для мобилок, так как там нет курсора мыши */
+    .link:hover,
+    .adminLink:hover {
+        transform: none;
+        box-shadow: none;
+        background: linear-gradient(120deg, rgb(17, 0, 255) 0%, rgba(255, 157, 0, 1) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+}
+
+.bottomNavItem{
+    text-decoration: none;
+    color: rgb(255, 255, 255); /* Полупрозрачный белый для неактивных */
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+
+/* =========================================
+   ДОБАВИТЬ В ГЛОБАЛЬНУЮ ОБЛАСТЬ (ВНЕ MEDIA)
+   ========================================= */
+
+/* Скрываем нижнее меню на компьютерах */
+.bottomNav {
+    display: none;
+}
+
+/* =========================================
+   ДОБАВИТЬ ВНУТРЬ @media (max-width: 768px)
+   ========================================= */
+
+@media (max-width: 768px) {
+    /* ... ваши предыдущие мобильные стили остаются здесь ... */
+
+    /* --- Стили для нового нижнего меню --- */
+    .bottomNav {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 65px;
+        background: rgba(15, 23, 42, 0.95); /* Темный фон в стиле вашего сайта */
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        z-index: 1000;
+        /* env() нужен для корректного отображения на современных iPhone с "челкой" внизу */
+        padding-bottom: env(safe-area-inset-bottom); 
+    }
+
+    .bottomNavItem {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.6); /* Полупрозрачный белый для неактивных */
+        font-size: 0.7rem;
+        font-weight: 500;
+        gap: 6px;
+        transition: color 0.3s ease, transform 0.2s ease;
+    }
+
+    /* Эффект при нажатии/наведении */
+    .bottomNavItem:hover,
+    .bottomNavItem:active {
+        color: #ffffff; /* Иконка и текст становятся ярко-белыми */
+        transform: scale(1.05); /* Легкое увеличение при тапе */
+    }
+
+    .bottomNavItem svg {
+        transition: stroke 0.3s ease;
+    }
+}
+
+
+@media (max-width: 768px) {
+    main {
+        padding-bottom: 80px; /* Отступ, чтобы можно было доскроллить до конца страницы */
+    }
+}
+
+
+.link {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Расстояние между иконкой и текстом */
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 500;
+    transition: opacity 0.2s ease;
+}
+
+.link:hover {
+    opacity: 0.8;
+}
+
+/* Выравнивание иконки внутри админ-ссылки, если нужен особый цвет */
+.adminicon{
+    font-size: 50px;
+}
+
+button:active, .interactive-card:active {
+    transform: scale(0.97);
+    opacity: 0.9;
+  }

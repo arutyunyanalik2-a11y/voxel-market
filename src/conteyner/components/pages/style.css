@@ -1,0 +1,228 @@
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    /* Ваш фирменный градиент */
+    /* background: linear-gradient(120deg, rgb(17, 0, 255) 0%, rgba(255, 157, 0, 1) 100%); */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.login-card {
+    background: #ffffff;
+    padding: 35px 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+}
+
+.login-card h1 {
+    margin-top: 0;
+    margin-bottom: 24px;
+    font-size: 26px;
+    color: #1a1a1a;
+    text-align: center;
+    font-weight: 700;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333333;
+    font-size: 14px;
+}
+
+.form-group input {
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    /* Исправляет проблему с черными инпутами на мобильных/старых устройствах */
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.form-group input:focus {
+    border-color: rgb(17, 0, 255);
+    box-shadow: 0 0 0 3px rgba(17, 0, 255, 0.15);
+}
+
+/* Состояние ошибки (красная рамка) */
+.form-group input.input-error {
+    border-color: #ff4d4f;
+    background-color: #fff2f0 !important;
+}
+
+.error-message {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #ff4d4f;
+    font-weight: 500;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(120deg, rgb(17, 0, 255) 0%, rgba(255, 157, 0, 1) 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+
+.login-btn:hover {
+    opacity: 0.9;
+}
+
+.login-btn:active {
+    transform: scale(0.98);
+}
+
+/* Медиа-запросы для мобильных устройств (включая компактные экраны) */
+@media (max-width: 480px) {
+    .login-page {
+        padding: 15px;
+        align-items: flex-start; /* Чтобы при открытии клавиатуры на телефонах карточка не сжималась критично */
+        padding-top: 30px;
+    }
+
+    .login-card {
+        padding: 24px 18px;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .login-card h1 {
+        font-size: 22px;
+        margin-bottom: 18px;
+    }
+
+    .form-group {
+        margin-bottom: 16px;
+    }
+
+    .form-group input {
+        padding: 10px 12px;
+        font-size: 15px;
+    }
+
+    .login-btn {
+        padding: 11px;
+        font-size: 15px;
+    }
+}
+
+/* --- Стили для Страниц Авторизации и Профиля --- */
+.login-page, .profile-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 20px;
+}
+
+.login-card, .profile-card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-card h1, .profile-card h1 {
+    font-size: 24px;
+    margin-bottom: 24px;
+    color: #333;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #555;
+}
+
+.form-group input {
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+    border-color: #007bff;
+}
+
+.input-error {
+    border-color: #ff4d4d !important;
+}
+
+.error-message {
+    color: #ff4d4d;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 10px;
+}
+
+.login-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Оформление аватарки в шапке */
+.profileIconWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.status{
+    color: blue;
+}
+
+
+button:active, .interactive-card:active {
+    transform: scale(0.97);
+    opacity: 0.9;
+  }
