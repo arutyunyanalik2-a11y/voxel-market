@@ -44,5 +44,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Init Android project
+        run: npm run tauri android init
+
       - name: Build Android APK
         run: npm run tauri android build
