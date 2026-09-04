@@ -49,3 +49,9 @@ jobs:
 
       - name: Build Android APK
         run: npm run tauri android build
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-apk
+          path: src-tauri/gen/android/app/build/outputs/apk/**/*.apk
