@@ -1,23 +1,37 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { appStorage } from "../../../storage"; // Путь к вашему файлу storage.js
+import { appStorage } from "../../../storage";
 import "./style.css";
 
 export default function Cart() {
     const [cartItems, setCartItems] = useState([]);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
         const loadCart = async () => {
-            const savedCart = (await appStorage.get('voxel_cart')) || [];
-            setCartItems(savedCart);
+            try {
+                const savedCart = await appStorage.get('voxel_cart');
+                // Гарантируем, что в состояние попадет ТОЛЬКО массив
+                if (Array.isArray(savedCart)) {
+                    setCartItems(savedCart);
+                } else {
+                    setCartItems([]);
+                }
+            } catch (err) {
+                console.error("Ошибка загрузки корзины:", err);
+                setCartItems([]);
+            } finally {
+                setLoading(false);
+            }
         };
         loadCart();
     }, []);
 
     const updateCart = async (newItems) => {
-        setCartItems(newItems);
-        await appStorage.set('voxel_cart', newItems);
+        const safeItems = Array.isArray(newItems) ? newItems : [];
+        setCartItems(safeItems);
+        await appStorage.set('voxel_cart', safeItems);
     };
 
     const increaseQuantity = (id) => {
@@ -43,7 +57,18 @@ export default function Cart() {
         updateCart(updated);
     };
 
-    const totalPrice = cartItems.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+    // Защищенный расчет итоговой суммы
+    const totalPrice = Array.isArray(cartItems) 
+        ? cartItems.reduce((sum, item) => sum + ((item?.price || 0) * (item?.quantity || 1)), 0)
+        : 0;
+
+    if (loading) {
+        return (
+            <div className="menu" style={{ textAlign: 'center', padding: '40px 0' }}>
+                <p>Загрузка корзины...</p>
+            </div>
+        );
+    }
 
     return (
         <div className="menu">

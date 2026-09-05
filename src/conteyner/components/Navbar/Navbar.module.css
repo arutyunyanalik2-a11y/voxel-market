@@ -11,10 +11,12 @@
 
 .navbar {
     display: flex;
-    /* align-items: center; */
+    align-items: center; /* раскомментировали, чтобы элементы выровнялись по вертикали */
     justify-content: space-between;
-    padding: 0 4%;
-    height: 80px;
+    /* Добавляем безопасный отступ сверху к обычным отступам по бокам */
+    padding: env(safe-area-inset-top) 4% 0 4%;
+    /* Увеличиваем общую высоту на размер статус-бара, чтобы ничего не сжалось */
+    height: calc(80px + env(safe-area-inset-top));
     background: linear-gradient(120deg, rgb(17, 0, 255) 0%,  rgba(255, 157, 0, 1) 100%);
     animation: navbarEntrance 1s 1;
     position: sticky;
