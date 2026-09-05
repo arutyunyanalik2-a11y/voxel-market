@@ -1,0 +1,550 @@
+/* --- Основной макет --- */
+.dashboard-layout {
+    display: flex;
+    height: 100vh;
+    background-color: #0f172a;
+    color: #f8fafc;
+    font-family: system-ui, -apple-system, sans-serif;
+    overflow: hidden;
+    position: relative;
+}
+
+/* --- Всплывающее уведомление (Toast) --- */
+.toast-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #6366f1;
+    color: #ffffff;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: 600;
+    box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+    z-index: 9999;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* --- Боковое меню (Sidebar) --- */
+.dashboard-sidebar {
+    width: 260px;
+    background-color: #1e293b;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    z-index: 50;
+}
+
+.sidebar-logo {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-logo h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: #f8fafc;
+    line-height: 1.2;
+}
+
+.sidebar-logo span {
+    color: #818cf8;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.5rem;
+    flex: 1;
+}
+
+.sidebar-nav button {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    text-align: left;
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar-nav button:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #f8fafc;
+}
+
+.sidebar-nav button.active {
+    background-color: #6366f1;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.sidebar-footer {
+    padding: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.logout-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: transparent;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #ef4444;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.logout-btn:hover {
+    background-color: #ef4444;
+    color: white;
+}
+
+/* --- Основная область контента --- */
+.dashboard-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.dashboard-header {
+    padding: 1rem 2rem;
+    background-color: #1e293b;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.mobile-header-brand {
+    display: none;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.header-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #22c55e;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #22c55e;
+}
+
+.mobile-logout-btn {
+    display: none;
+}
+
+.dashboard-content {
+    padding: 2rem;
+    max-width: 1200px;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+.dashboard-section h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+/* --- Статистика --- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background-color: #1e293b;
+    padding: 1.5rem;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.stat-card h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.85rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+}
+
+.stat-value {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #818cf8;
+}
+
+.quick-actions {
+    background: #1e293b;
+    padding: 1.5rem;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.actions-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.action-btn {
+    padding: 0.75rem 1.25rem;
+    background: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+}
+
+.action-btn.secondary {
+    background: rgba(255, 255, 255, 0.08);
+    color: #cbd5e1;
+}
+
+/* --- Форма добавления товара --- */
+.add-product-form {
+    background-color: #1e293b;
+    padding: 2rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    max-width: 700px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.25rem;
+}
+
+.form-group.row {
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.form-group.row .third {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 0.5rem;
+    color: #cbd5e1;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 0.8rem 1rem;
+    background-color: #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    color: white;
+    outline: none;
+    font-size: 0.95rem;
+}
+
+.file-upload-area {
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    background-color: #0f172a;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.image-preview {
+    max-width: 100%;
+    max-height: 250px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.save-btn, .primary-btn {
+    background-color: #6366f1;
+    color: white;
+    border: none;
+    padding: 0.85rem 1.5rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* --- Сетка товаров --- */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.25rem;
+}
+
+.product-admin-card {
+    background-color: #1e293b;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+}
+
+.product-img-wrapper {
+    height: 160px;
+    position: relative;
+}
+
+.product-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 14px 14px 0 0;
+}
+
+.product-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: rgba(15, 23, 42, 0.8);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    color: #818cf8;
+}
+
+.product-info {
+    padding: 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-info h4 {
+    margin: 0 0 8px 0;
+}
+
+.product-desc {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin-bottom: 1rem;
+}
+
+.product-footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* --- Таблицы --- */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #1e293b;
+    min-width: 600px;
+}
+
+.admin-table th, .admin-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    background-color: #1e293b;
+    border-radius: 16px;
+    color: #94a3b8;
+}
+
+/* =======================================================
+   МОБИЛЬНАЯ АДАПТАЦИЯ (Медиазапросы)
+======================================================= */
+
+@media (max-width: 768px) {
+    /* Меняем направление на колонку (сначала шапка/контент, потом нижнее меню) */
+    .dashboard-layout {
+        flex-direction: column;
+    }
+
+    /* Превращаем боковую панель в Bottom Navigation */
+    .dashboard-sidebar {
+        width: 100%;
+        height: 65px;
+        order: 3; /* Отправляем меню в самый низ */
+        flex-direction: row;
+        border-right: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        background-color: #1e293b;
+    }
+
+    .sidebar-logo, .sidebar-footer {
+        display: none; /* Прячем логотип и кнопку выхода внизу */
+    }
+
+    .sidebar-nav {
+        flex-direction: row;
+        padding: 0;
+        gap: 0;
+        width: 100%;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .sidebar-nav button {
+        flex-direction: column;
+        padding: 8px 4px;
+        gap: 4px;
+        border-radius: 0;
+        flex: 1;
+        justify-content: center;
+        text-align: center;
+        font-size: 0.7rem;
+    }
+
+    .sidebar-nav button svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .sidebar-nav button.active {
+        background-color: transparent;
+        color: #818cf8;
+        box-shadow: none;
+        border-top: 2px solid #818cf8;
+    }
+
+    /* Настройка основной области */
+    .dashboard-main {
+        order: 1;
+        height: calc(100vh - 65px); /* Вычитаем высоту нижнего меню */
+    }
+
+    /* Мобильная шапка (показываем логотип и кнопку выхода) */
+    .dashboard-header {
+        padding: 1rem;
+        justify-content: space-between;
+    }
+
+    .mobile-header-brand {
+        display: block;
+    }
+
+    .mobile-header-brand h2 {
+        margin: 0;
+        font-size: 1.2rem;
+        color: #f8fafc;
+    }
+
+    .status-text {
+        display: none; /* Прячем текст "В сети", оставляем только зеленую точку */
+    }
+
+    .mobile-logout-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+        border: 1px solid rgba(239, 68, 68, 0.2);
+        padding: 8px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    /* Отступы контента */
+    .dashboard-content {
+        padding: 1rem;
+    }
+
+    .dashboard-section h2 {
+        font-size: 1.3rem;
+    }
+
+    .desktop-only {
+        display: none;
+    }
+
+    /* Формы */
+    .form-group.row {
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+    
+    .add-product-form {
+        padding: 1.25rem;
+    }
+
+    /* Сетки */
+    .stats-grid {
+        grid-template-columns: 1fr; /* Карточки статистики друг под другом */
+    }
+
+    .products-grid {
+        grid-template-columns: 1fr; /* Один товар в ряд на телефоне */
+    }
+
+    /* Тост уведомлений (по центру сверху) */
+    .toast-notification {
+        top: 20px;
+        left: 20px;
+        right: 20px;
+        text-align: center;
+    }
+}
+/* @import "leaflet/dist/leaflet.css"; */
