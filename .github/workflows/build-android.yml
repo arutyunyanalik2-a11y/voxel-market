@@ -47,8 +47,8 @@ jobs:
       - name: Init Android project
         run: npm run tauri android init
 
-      - name: Build Android APK
-        run: npm run tauri android build
+      - name: Build Android APK (Debug Signed)
+        run: npm run tauri android build -- --debug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
