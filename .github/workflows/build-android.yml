@@ -1,55 +1,49 @@
 name: Build Android APK
-
 on:
   push:
     branches: [ main, master ]
-
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
-
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
-
       - name: Setup Android SDK & NDK
         uses: android-actions/setup-android@v3
         with:
-          packages: platform-tools platforms;android-34 build-tools;34.0.0 ndk;26.3.11579264
-
+          # Версия NDK должна совпадать с той, что использовалась при
+          # локальной генерации src-tauri/gen/android (29.0.13846066),
+          # иначе Gradle не найдёт нужную версию NDK на раннере.
+          packages: platform-tools platforms;android-34 build-tools;34.0.0 ndk;29.0.13846066
       - name: Set NDK_HOME
         run: |
-          echo "NDK_HOME=$ANDROID_SDK_ROOT/ndk/26.3.11579264" >> $GITHUB_ENV
-
+          echo "NDK_HOME=$ANDROID_SDK_ROOT/ndk/29.0.13846066" >> $GITHUB_ENV
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: aarch64-linux-android, armv7-linux-androideabi, x86_64-linux-android
-
       - name: Install cargo-ndk
         run: cargo install cargo-ndk --locked
-
       - name: Install dependencies
         run: npm install
-
-      - name: Init Android project
-        run: npm run tauri android init
-
+      # Шаг "Init Android project" убран намеренно: src-tauri/gen/android
+      # уже закоммичен в репозиторий со всеми правильными иконками.
+      # Повторный вызов "tauri android init" в CI пересоздавал бы эту
+      # папку с нуля на каждом запуске и стирал бы кастомные иконки,
+      # заменяя их обратно на логотип Tauri по умолчанию.
       - name: Build Android APK (Debug Signed)
         run: npm run tauri android build -- --debug
-
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
