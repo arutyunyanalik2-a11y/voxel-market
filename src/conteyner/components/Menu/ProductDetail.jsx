@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./style.css";
-import { appStorage } from "../../../storage"; // проверь путь до storage.js
+import { appStorage } from "../../../storage";
 
 export default function ProductDetail() {
     const { id } = useParams();
@@ -11,71 +11,83 @@ export default function ProductDetail() {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // Состояния для оформления заказа
+    // Состояния для оформления заказа и авторизации
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [addresses, setAddresses] = useState([]);
     const [selectedAddress, setSelectedAddress] = useState(null);
     const [phone, setPhone] = useState("");
-
-    // Получаем email текущего пользователя (если он авторизован)
-    const userEmail = localStorage.getItem('userEmail');
+    const [userEmail, setUserEmail] = useState(null); // Храним email в стейте
 
     useEffect(() => {
-        // 1. Загружаем данные товара
-        fetch(`https://voxelmarket-backend.onrender.com/api/products/${id}`)
-            .then(res => res.json())
-            .then(data => {
-                setProduct(data);
-                setLoading(false);
-            })
-            .catch(err => {
-                console.error("Ошибка загрузки товара:", err);
-                setLoading(false);
-            });
+        let isMounted = true;
 
-        // 2. Загружаем адреса пользователя, если он вошел в систему
-        if (userEmail) {
-            fetch(`https://voxelmarket-backend.onrender.com/api/users/addresses/${userEmail}`)
-                .then(res => res.json())
-                .then(data => {
-                    if (Array.isArray(data)) {
-                        setAddresses(data);
+        const loadData = async () => {
+            try {
+                // 0. Загружаем email текущего пользователя через правильный appStorage
+                const email = await appStorage.get('userEmail');
+                if (isMounted) setUserEmail(email);
+
+                // 1. Загружаем данные товара
+                const productRes = await fetch(`https://voxelmarket-backend.onrender.com/api/products/${id}`);
+                const productData = await productRes.json();
+                if (isMounted) {
+                    setProduct(productData);
+                    setLoading(false);
+                }
+
+                // 2. Загружаем адреса пользователя, если он вошел в систему
+                if (email) {
+                    const addrRes = await fetch(`https://voxelmarket-backend.onrender.com/api/users/addresses/${email}`);
+                    const addrData = await addrRes.json();
+                    if (isMounted && Array.isArray(addrData)) {
+                        setAddresses(addrData);
                     }
-                })
-                .catch(err => console.error("Ошибка загрузки адресов:", err));
+                }
+            } catch (err) {
+                console.error("Ошибка загрузки данных:", err);
+                if (isMounted) setLoading(false);
+            }
+        };
+
+        loadData();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [id]);
+
+    // Функция добавления текущего товара в нативную память (корзину)
+    const addToCart = async () => {
+        if (!product) return;
+        
+        try {
+            const cart = (await appStorage.get('voxel_cart')) || [];
+            const safeCart = Array.isArray(cart) ? cart : [];
+            const existingIndex = safeCart.findIndex(item => item._id === product._id);
+
+            if (existingIndex > -1) {
+                safeCart[existingIndex].quantity = (safeCart[existingIndex].quantity || 1) + 1;
+            } else {
+                safeCart.push({ ...product, quantity: 1 });
+            }
+
+            await appStorage.set('voxel_cart', safeCart);
+            alert('Товар успешно добавлен в корзину!');
+        } catch (err) {
+            console.error("Ошибка добавления в корзину:", err);
+            alert('Не удалось добавить товар в корзину');
         }
-    }, [id, userEmail]);
+    };
 
-    // Функция добавления текущего товара в localStorage (корзину)
-// Функция добавления текущего товара в нативную память
-const addToCart = async () => {
-    if (!product) return;
-    
-    try {
-        const cart = (await appStorage.get('voxel_cart')) || [];
-        const safeCart = Array.isArray(cart) ? cart : [];
-        const existingIndex = safeCart.findIndex(item => item._id === product._id);
-
-        if (existingIndex > -1) {
-            safeCart[existingIndex].quantity = (safeCart[existingIndex].quantity || 1) + 1;
-        } else {
-            safeCart.push({ ...product, quantity: 1 });
-        }
-
-        await appStorage.set('voxel_cart', safeCart);
-        alert('Товар успешно добавлен в корзину!');
-    } catch (err) {
-        console.error("Ошибка добавления в корзину:", err);
-        alert('Не удалось добавить товар в корзину');
-    }
-};
-
-    const handleOpenModal = () => {
-        if (!userEmail) {
+    const handleOpenModal = async () => {
+        // Проверяем актуальное состояние из хранилища на случай, если что-то изменилось
+        const currentEmail = await appStorage.get('userEmail');
+        if (!currentEmail) {
             alert("Пожалуйста, войдите в аккаунт, чтобы оформить заказ.");
             navigate('/login');
             return;
         }
+        setUserEmail(currentEmail);
         setIsModalOpen(true);
     };
 
@@ -89,27 +101,24 @@ const addToCart = async () => {
             return;
         }
 
-        // Проверяем, есть ли координаты у выбранного адреса
         if (!selectedAddress.coordinates || selectedAddress.coordinates.length === 0) {
             alert("У выбранного адреса отсутствуют координаты. Пожалуйста, пересоздайте адрес в профиле с использованием карты.");
             return;
         }
 
-        // Формируем красивую строку с адресом (включая этаж и квартиру, если есть)
         let fullAddress = selectedAddress.street;
         if (selectedAddress.isMultiStory) {
             fullAddress += `, Этаж: ${selectedAddress.floor || '-'}, Кв: ${selectedAddress.apartment || '-'}`;
         }
 
-        // Собираем данные заказа
         const orderData = {
-            userEmail, // Чтобы потом показать заказ в профиле
+            userEmail, 
             productName: product.name,
             productImage: product.image,
             price: product.price,
             phone: phone,
             address: fullAddress,
-            coordinates: selectedAddress.coordinates // Координаты для карты в админке
+            coordinates: selectedAddress.coordinates
         };
 
         try {
@@ -169,7 +178,7 @@ const addToCart = async () => {
                             В корзину
                         </button>
                         <button 
-                        className="order-button"
+                            className="order-button"
                             onClick={handleOpenModal}
                         >
                             Оформить заказ
