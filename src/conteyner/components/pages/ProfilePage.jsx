@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, useMap, useMapEvents } from "react-leaflet";
 import appStorage from "../../../storage.js";
+import 'leaflet/dist/leaflet.css';
 
 // Если у вас эти хелперы уже определены/импортированы в оригинальном файле —
 // оставьте свои версии, здесь просто заглушки для целостности примера.

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import L from 'leaflet';
 import './dashboard.css';
+import 'leaflet/dist/leaflet.css';
 
 // Исправление стандартных иконок маркеров Leaflet в React
 delete L.Icon.Default.prototype._getIconUrl;
